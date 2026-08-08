@@ -1,0 +1,60 @@
+{
+    "project_name": "emotional_qwen",
+    "description": "微调 Qwen 模型使其具备提供情绪价值的能力",
+
+    "model": {
+        "name": "Qwen/Qwen2.5-0.5B-Instruct",
+        "description": "使用 qwen2.5 0.5B 作为基座模型，约0.6B参数",
+        "load_in_4bit": true,
+        "torch_dtype": "bfloat16"
+    },
+
+    "data": {
+        "datasets": ["emochat", "emotional_qa"],
+        "custom_samples": true,
+        "max_per_dataset": 50000,
+        "output_dir": "./data",
+        "preprocessed_dir": "./processed_data",
+        "max_length": 2048
+    },
+
+    "lora": {
+        "r": 8,
+        "alpha": 16,
+        "dropout": 0.05,
+        "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+        "auto_detect": false
+    },
+
+    "training": {
+        "output_dir": "./output/emotional_qwen",
+        "num_epochs": 3,
+        "batch_size": 2,
+        "gradient_accumulation": 4,
+        "learning_rate": 0.0002,
+        "weight_decay": 0.01,
+        "warmup_ratio": 0.03,
+        "lr_scheduler": "cosine",
+        "logging_steps": 10,
+        "save_steps": 500,
+        "save_total_limit": 3,
+        "fp16": true,
+        "gradient_checkpointing": true
+    },
+
+    "inference": {
+        "max_new_tokens": 512,
+        "temperature": 0.7,
+        "top_p": 0.9,
+        "repetition_penalty": 1.1
+    },
+
+    "emotional_capabilities": [
+        "情绪安抚与共情",
+        "积极倾听与陪伴",
+        "认知重构引导",
+        "自我效能感增强",
+        "温暖鼓励与支持",
+        "情绪调节技巧指导"
+    ]
+}
